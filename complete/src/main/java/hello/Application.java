@@ -1,7 +1,5 @@
 package hello;
 
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -26,21 +24,15 @@ public class Application {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
 
-//            System.out.println("Let's inspect the beans provided by Spring Boot:");
-//
-//            String[] beanNames = ctx.getBeanDefinitionNames();
-//            Arrays.sort(beanNames);
-//            for (String beanName : beanNames) {
-//                System.out.println(beanName);
-//            }
-
         };
     }
 
     //@Scheduled(cron = "* * * * *")
-    @Scheduled(fixedDelay = 10000, initialDelay = 1000)
+    @Scheduled(fixedDelay = 10000, initialDelay = 5000)
     public void callRestClient() {
+        log.debug("About to call rest service ...");
         new RestClient().callRest();
+        log.debug("Call to rest service done.");
     }
 
 }

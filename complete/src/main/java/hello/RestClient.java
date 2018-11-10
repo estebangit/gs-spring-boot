@@ -20,7 +20,7 @@ public final class RestClient {
 
     public String callRest() {
         final Quote quote = this.restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-        log.info(quote.toString());
+        log.info("--> {}", quote);
         return quote.toString();
     }
 

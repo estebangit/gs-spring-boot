@@ -9,6 +9,7 @@ public final class Quote {
     private Value value;
 
     public Quote() {
+        // empty constructor
     }
 
     public String getType() {

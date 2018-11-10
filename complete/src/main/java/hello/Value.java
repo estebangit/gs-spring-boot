@@ -9,6 +9,7 @@ public final class Value {
     private String quote;
 
     public Value() {
+        // empty constructor
     }
 
     public Long getId() {

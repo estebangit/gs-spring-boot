@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class HelloController {
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
-    @RequestMapping(value = "/test/{id}", method = RequestMethod.GET)
+    @GetMapping("/test/{id}")
     public String test(@PathVariable("id") String id) {
         return "This is a test with id " + id;
     }
 
     @GetMapping("/test2/{id}")
-    public ResponseEntity<?> getTest2(@PathVariable String id) {
+    public ResponseEntity<String> getTest2(@PathVariable String id) {
         return new ResponseEntity<>("This is a test2 with id " + id, HttpStatus.OK);
     }
 
