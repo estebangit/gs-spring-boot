@@ -9,8 +9,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
+@EnableScheduling
 public class Application {
 
     private static final Logger log = LoggerFactory.getLogger(Application.class);
@@ -32,6 +35,12 @@ public class Application {
 //            }
 
         };
+    }
+
+    //@Scheduled(cron = "* * * * *")
+    @Scheduled(fixedDelay = 10000, initialDelay = 1000)
+    public void callRestClient() {
+        new RestClient().callRest();
     }
 
 }
