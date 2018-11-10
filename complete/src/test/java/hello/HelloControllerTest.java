@@ -29,4 +29,11 @@ public class HelloControllerTest {
                 .andExpect(content().string(equalTo("Greetings from Spring Boot!")));
     }
 
+    @Test
+    public void getTest2() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/test2/52").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("This is a test2 with id 52")));
+    }
+
 }
