@@ -2,6 +2,7 @@ package hello;
 
 import hello.git.GitHelper;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,12 @@ import java.io.IOException;
  */
 @RestController
 public class HelloController {
+
+    @Value("${git.repo.url}")
+    private String gitRepoUrl;
+
+    @Value("${git.repo.branch}")
+    private String gitRepoBranch;
 
     @GetMapping("/")
     public String index() {
@@ -32,7 +39,7 @@ public class HelloController {
     @GetMapping("/git")
     public ResponseEntity<String> git() {
         try {
-            new GitHelper().cloneRepo();
+            new GitHelper(gitRepoUrl, gitRepoBranch).cloneRepo();
         } catch (GitAPIException | IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>("Failed to clone repo. " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
