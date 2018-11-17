@@ -18,6 +18,8 @@ public class GitHelper {
 
     private String gitRepoBranch;
 
+    private Git git;
+
     /**
      * Constructor
      *
@@ -42,7 +44,7 @@ public class GitHelper {
     public void cloneRepo() throws GitAPIException, IOException {
         final File tmpFolder = getTempGitFolder();
         tmpFolder.deleteOnExit();
-        final Git git = Git.cloneRepository()
+        this.git = Git.cloneRepository()
                 .setURI(getRepoUrl())
                 .setDirectory(tmpFolder)
                 .setBranch(getRepoBranch())
@@ -58,6 +60,10 @@ public class GitHelper {
     private String getRepoBranch() {
         log.info("Git repo BRANCH: '{}'", gitRepoBranch);
         return gitRepoBranch;
+    }
+
+    public void delete() {
+        git.close();
     }
 
 }

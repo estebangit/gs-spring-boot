@@ -39,7 +39,9 @@ public class HelloController {
     @GetMapping("/git")
     public ResponseEntity<String> git() {
         try {
-            new GitHelper(gitRepoUrl, gitRepoBranch).cloneRepo();
+            GitHelper helper = new GitHelper(gitRepoUrl, gitRepoBranch);
+            helper.cloneRepo();
+            helper.delete();
         } catch (GitAPIException | IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>("Failed to clone repo. " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
