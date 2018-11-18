@@ -19,6 +19,8 @@ public final class Quote {
     @Valid
     private Value value;
 
+    private String cron;
+
     public Quote() {
         // empty constructor
     }
@@ -39,12 +41,20 @@ public final class Quote {
         this.value = value;
     }
 
+    public String getCron() {
+        return cron;
+    }
+
+    public void setCron(String cron) {
+        this.cron = cron;
+    }
+
     @Override
     public String toString() {
         return "Quote{" +
                 "type='" + type + '\'' +
                 ", value=" + value +
+                ", cron='" + cron + '\'' +
                 '}';
     }
-
 }

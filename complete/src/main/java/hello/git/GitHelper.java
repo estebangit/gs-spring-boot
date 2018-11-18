@@ -1,5 +1,7 @@
 package hello.git;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ public class GitHelper {
     private String gitRepoBranch;
 
     private Git git;
+    private File tmpFolder;
 
     /**
      * Constructor
@@ -42,14 +45,12 @@ public class GitHelper {
     }
 
     public void cloneRepo() throws GitAPIException, IOException {
-        final File tmpFolder = getTempGitFolder();
-        tmpFolder.deleteOnExit();
+        this.tmpFolder = getTempGitFolder();
         this.git = Git.cloneRepository()
                 .setURI(getRepoUrl())
                 .setDirectory(tmpFolder)
                 .setBranch(getRepoBranch())
                 .call();
-        //Files.deleteIfExists(tmpFolder.toPath());
     }
 
     private String getRepoUrl() {
@@ -64,6 +65,12 @@ public class GitHelper {
 
     public void delete() {
         git.close();
+        try {
+            FileUtils.deleteDirectory(this.tmpFolder);
+            log.info("Temp folder deleted {}", this.tmpFolder);
+        } catch (IOException e) {
+            log.error("failed to delete tmp folder " + tmpFolder);
+        }
     }
 
 }

@@ -24,7 +24,7 @@ public class Application {
 //    }
 
     //@Scheduled(cron = "* * * * *")
-    @Scheduled(fixedDelay = 10000, initialDelay = 5000)
+    @Scheduled(fixedDelay = 100000, initialDelay = 5000)
     public void callRestClient() {
         log.debug("About to call rest service ...");
         new RestClient().callRest();

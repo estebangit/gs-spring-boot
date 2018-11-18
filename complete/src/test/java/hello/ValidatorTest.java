@@ -2,6 +2,7 @@ package hello;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.quartz.CronExpression;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -13,6 +14,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Set;
 
 public class ValidatorTest {
@@ -53,6 +55,7 @@ public class ValidatorTest {
         quote.setType("TYPE1");
         quote.setValue(new Value());
         quote.getValue().setDate(getDate(DT2));
+        quote.setCron("0 0 6 * * ?");
 
         System.out.println(quote);
 
@@ -61,6 +64,30 @@ public class ValidatorTest {
         for (ConstraintViolation<Quote> violation : violations) {
             System.out.println(violation.getMessage());
         }
+
+        validateCron(quote.getCron());
+    }
+
+    @Test
+    public void testCron() {
+        validateCron("0 0 * ? * *"); // every hour
+        validateCron("0 0 6 * * ?"); // every day at 6
+        validateCron("0 0 12 2 * ?"); // every month on the 2nd, at noon
+        validateCron("0 0 12 1/4 * ?"); // Every 4 months on the 1st, at noon
+    }
+
+    private void validateCron(String cron) {
+        boolean valid = CronExpression.isValidExpression(cron);
+        Date dt = null;
+        if (valid) {
+
+            try {
+                dt = new CronExpression(cron).getNextValidTimeAfter(new Date());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println((valid?"OK - ":"NOK - ")+cron + " - " + dt);
     }
 
     private OffsetDateTime getDate(String str) throws ParseException {
